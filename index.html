@@ -48,14 +48,15 @@
         ? await response.json()
         : { hackerName: await response.text() };
 
-      console.log('Received from Pipedream:', json);
+      console.log('💬 Received from Pipedream:', json);
       result.innerText = json.hackerName || 'No name returned. Try again.';
     } catch (err) {
-      console.error('Error parsing hacker name:', err);
+      console.error('⚠️ Error parsing hacker name:', err);
       result.innerText = 'Error generating name. Please try again later.';
     }
   });
 </script>
+
 
 </body>
 </html>
