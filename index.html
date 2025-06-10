@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Secret Hacker Name Generator</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2em; background-color: #111; color: #eee; }
+    form { max-width: 400px; margin: auto; background: #222; padding: 2em; border-radius: 8px; box-shadow: 0 0 10px #444; }
+    label { display: block; margin-top: 1em; }
+    input { width: 100%; padding: 0.5em; margin-top: 0.25em; background: #333; color: #fff; border: none; border-radius: 4px; }
+    button { margin-top: 1em; padding: 0.75em; width: 100%; background: #0f0; border: none; border-radius: 4px; font-weight: bold; }
+    #result { margin-top: 2em; font-size: 1.2em; background: #333; padding: 1em; border-radius: 8px; text-align: center; }
+  </style>
+</head>
+<body>
+  <form id="hackerForm">
+    <h2>Find Your Secret Hacker Name</h2>
+    <label>First Name:<input type="text" name="name" required></label>
+    <label>Favorite Color:<input type="text" name="color" required></label>
+    <label>Spirit Animal:<input type="text" name="animal" required></label>
+    <label>Descriptive Word:<input type="text" name="word" required></label>
+    <label>Favorite Number:<input type="number" name="number" required></label>
+    <button type="submit">Generate</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    const form = document.getElementById('hackerForm');
+    const result = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      result.innerText = 'Generating your hacker name...';
+
+      try {
+        const response = await fetch('https://eoy1r76a8yt9bcj.m.pipedream.net', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const contentType = response.headers.get('content-type') || '';
+        const json = contentType.includes('application/json')
+          ? await response.json()
+          : { hackerName: await response.text() };
+
+        result.innerText = json.hackerName || 'No name returned. Try again.';
+      } catch (err) {
+        console.error(err);
+        result.innerText = 'Error generating name. Please try again later.';
+      }
+    });
+  </script>
+</body>
+</html>
